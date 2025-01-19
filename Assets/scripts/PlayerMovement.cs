@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f; // Judėjimo greitis
+    public float speed = 5f; // Veikėjo judėjimo greitis
+    public float rotationSpeed = 720f; // Veikėjo sukimosi greitis
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        
+        float move = Input.GetAxis("Vertical") * speed;
+        
+        float rotate = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
 
-        Vector3 movement = new Vector3(horizontal, 0, vertical);
-        transform.Translate(movement * speed * Time.deltaTime, Space.World);
+        
+        transform.Rotate(0, rotate, 0);
+
+        
+        Vector3 movement = transform.forward * move * Time.deltaTime;
+        rb.MovePosition(rb.position + movement);
     }
 }
