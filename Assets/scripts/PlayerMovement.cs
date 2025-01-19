@@ -15,16 +15,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        
-        float move = Input.GetAxis("Vertical") * speed;
-        
-        float rotate = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
+      float move = Input.GetAxis("Vertical");
+      float rotate = Input.GetAxis("Horizontal");
 
-        
-        transform.Rotate(0, rotate, 0);
+       if (Mathf.Abs(move) > 0.1f || Mathf.Abs(rotate) > 0.1f)
+      {
+            transform.Rotate(0, rotate * rotationSpeed * Time.deltaTime, 0);
 
-        
-        Vector3 movement = transform.forward * move * Time.deltaTime;
-        rb.MovePosition(rb.position + movement);
+           Vector3 movement = transform.forward * move * speed * Time.deltaTime;
+           rb.MovePosition(rb.position + movement);
+        }
     }
 }
